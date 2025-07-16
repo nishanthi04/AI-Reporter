@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Reporter - Single Image Processing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo-wrapper animate-logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="auth-info" style="text-align: right; padding: 10px; position: relative;">
+        {% if current_user.is_authenticated %}
+            <div class="profile-dropdown">
+                <button class="profile-btn">
+    <img src="{{ url_for('static', filename='images/profile-icon.png') }}" alt="Profile" class="profile-icon"> ▾
+</button>
+
+                <div class="profile-menu">
+                    <p style="margin: 0; font-weight: bold;">Welcome, {{ current_user.id }}</p>
+                    <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+                    <a href="{{ url_for('change_password') }}">Change Password</a>
+                    <hr>
+                    <a href="#" onclick="setTheme('light')">Bright Theme</a>
+                    <a href="#" onclick="setTheme('dark')">Dark Theme</a>
+                    <a href="#" onclick="setTheme('system')">System Default</a>
+                    <hr>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
+        {% else %}
+            <p><a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Page Title -->
+    <h1>AI NEWS REPORTER</h1>
+
+    <!-- Upload Form Section -->
+    <div class="container">
+        <h2>Today's News</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="newspaper_image" required>
+            <br><br>
+            <button type="submit">Process</button>
+        </form>
+
+        {% if report %}
+            <h2>Generated Report:</h2>
+            <div class="report">
+                <p>{{ report }}</p>
+            </div>
+
+            {% if audio_file %}
+                <h2>Audio File:</h2>
+                <audio controls>
+                    <source src="{{ audio_file }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Theme Switch Script -->
+<script>
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+function applyTheme(theme) {
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+    } else if (theme === "light") {
+        document.body.classList.remove("dark-mode");
+    } else {
+        if (prefersDark.matches) {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }
+}
+
+function setTheme(theme) {
+    localStorage.setItem("theme", theme);
+    applyTheme(theme);
+}
+
+const savedTheme = localStorage.getItem("theme") || "system";
+applyTheme(savedTheme);
+</script>
+
+</body>
+</html>
