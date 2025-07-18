@@ -179,3 +179,6 @@ if __name__ == "__main__":
         os.makedirs(DATASET_PATH)
     os.makedirs(AUDIO_OUTPUT_PATH, exist_ok=True)
     app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)  # Render uses PORT env variable, but default helps locally
