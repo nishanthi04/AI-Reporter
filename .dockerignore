@@ -3,4 +3,7 @@ __pycache__/
 *.pyo
 *.pyd
 .env
-.git
+venv/
+.git/
+.gitignore
+*.db
