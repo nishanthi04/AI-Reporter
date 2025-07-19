@@ -1,9 +1,6 @@
-__pycache__
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
 .env
-venv/
 .git
-.gitignore
-runtime.txt
